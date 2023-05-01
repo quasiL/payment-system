@@ -1,0 +1,85 @@
+version: '3.7'
+services:
+
+  ## User-Service Docker Compose Config
+  user-service:
+    container_name: user-service
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-database:5432/payscam-database
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+    depends_on:
+      - postgres-database
+    volumes:
+      - ./user-service
+    networks:
+      - payscam-network
+
+  ## Payment-Processing-Service Docker Compose Config
+  payment-processing-service:
+    container_name: payment-processing-service
+    build:
+      context: ./payment-processing-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-database:5432/payscam-database
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+    depends_on:
+      - postgres-database
+    volumes:
+      - ./payment-processing-service
+    networks:
+      - payscam-network
+
+  ## Payment-Processing-Service Docker Compose Config
+  risk-management-service:
+    container_name: risk-management-service
+    build:
+      context: ./risk-management-service
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-database:5432/payscam-database
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+    depends_on:
+      - postgres-database
+    volumes:
+      - ./risk-management-service
+    networks:
+      - payscam-network
+
+  ## Postgres Docker Compose Config
+  postgres-database:
+    container_name: postgres-database
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: payscam-database
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    restart: always
+    networks:
+      - payscam-network
+
+networks:
+  payscam-network:
+    driver: bridge
