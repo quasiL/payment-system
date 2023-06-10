@@ -1,13 +1,16 @@
 -- Initialize tables and data for user-service
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    login VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    role VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
 );
 
-INSERT INTO users (login, email) VALUES ('login1', 'email1');
-INSERT INTO users (login, email) VALUES ('login2', 'email2');
-INSERT INTO users (login, email) VALUES ('login3', 'email3');
+INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName1','lastName1', 'email1', 'USER', 'password1');
+INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName2','lastName2', 'email2', 'USER', 'password2');
+INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName3','lastName3', 'email3', 'USER', 'password3');
 
 
 

@@ -1,6 +1,0 @@
-CREATE TABLE users (
-    id IDENTITY NOT NULL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    age INTEGER NOT NULL
-);
-

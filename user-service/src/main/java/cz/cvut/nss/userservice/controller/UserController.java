@@ -1,32 +1,27 @@
 package cz.cvut.nss.userservice.controller;
 
-import cz.cvut.nss.userservice.model.User;
-import cz.cvut.nss.userservice.repository.UserRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
+import cz.cvut.nss.userservice.service.AuthenticationService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@AllArgsConstructor
+@RequestMapping("/api/v1/auth")
+@RequiredArgsConstructor
 public class UserController {
 
-    private UserRepository userRepository;
+    private final AuthenticationService service;
 
-    @GetMapping("/hello")
-    public String helloWorld() {
-        return "Hello, World!";
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register(
+            @RequestBody RegisterRequest request
+    ) {
+        return ResponseEntity.ok(service.register(request));
     }
-
-    @GetMapping("/users")
-    public List<User> getUsers() {
-        return userRepository.findAll();
-    }
-
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/add")
-    public void createUser(@RequestBody User user) {
-        userRepository.save(user);
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(
+            @RequestBody AuthenticationRequest request
+    ) {
+        return ResponseEntity.ok(service.authenticate(request));
     }
 }
