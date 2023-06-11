@@ -1,4 +1,4 @@
-package cz.cvut.nss.userservice.controller;
+package cz.cvut.nss.userservice.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
+public class AuthenticationRequest {
 
-    private String token;
+    private String email;
+    private String password;
 }

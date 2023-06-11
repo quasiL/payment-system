@@ -64,6 +64,15 @@ services:
     networks:
       - payscam-network
 
+  ## React-app Docker Compose Config
+  payscam-react:
+    container_name: payscam-react
+    build:
+      context: ./payscam-react
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+
   ## Postgres Docker Compose Config
   postgres-database:
     container_name: postgres-database
