@@ -15,14 +15,15 @@ import java.util.List;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/payment")
+@RequestMapping("/api/v1/payment")
 public class PaymentProcessingController {
 
     private PaymentProcessingService paymentProcessingService;
 
     @GetMapping("/user_payments/{accountNumber}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Payment> getUserPayments(@PathVariable String accountNumber) {
+    public List<Payment> getUserPayments(@PathVariable String accountNumber) throws InterruptedException {
+        Thread.sleep(500);
         return paymentProcessingService.getAllUserRelatedPayments(accountNumber);
     }
 

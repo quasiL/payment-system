@@ -24,8 +24,11 @@ public class DatabaseInitializer {
         jdbcTemplate.execute("DROP ALL OBJECTS;");
         jdbcTemplate.execute("CREATE TABLE users (\n" +
                 "    id IDENTITY NOT NULL PRIMARY KEY,\n" +
-                "    login VARCHAR(255) NOT NULL,\n" +
-                "    email VARCHAR(255) NOT NULL\n" +
+                "    first_name VARCHAR(255) NOT NULL,\n" +
+                "    last_name VARCHAR(255) NOT NULL,\n" +
+                "    email VARCHAR(255) NOT NULL,\n" +
+                "    role VARCHAR(255) NOT NULL,\n" +
+                "    password VARCHAR(255) NOT NULL\n" +
                 ");");
         jdbcTemplate.execute("CREATE TABLE user_accounts (\n" +
                 "    id IDENTITY NOT NULL PRIMARY KEY,\n" +
@@ -54,9 +57,9 @@ public class DatabaseInitializer {
                 "    payment_system VARCHAR(255),\n" +
                 "    FOREIGN KEY (payment) REFERENCES payments (id)\n" +
                 ");");
-        jdbcTemplate.execute("INSERT INTO users (login, email) VALUES ('login1', 'email1');");
-        jdbcTemplate.execute("INSERT INTO users (login, email) VALUES ('login2', 'email2');");
-        jdbcTemplate.execute("INSERT INTO users (login, email) VALUES ('login3', 'email3');");
+        jdbcTemplate.execute("INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName1','lastName1', 'email1', 'USER', 'password1');");
+        jdbcTemplate.execute("INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName2','lastName2', 'email2', 'USER', 'password2');");
+        jdbcTemplate.execute("INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName2','lastName2', 'email2', 'USER', 'password2');");
         jdbcTemplate.execute("INSERT INTO user_accounts(user_id, account, balance) VALUES (1, '101', 750.56);");
         jdbcTemplate.execute("INSERT INTO user_accounts(user_id, account, balance) VALUES (2, '102', 800.50);");
         jdbcTemplate.execute("INSERT INTO user_accounts(user_id, account, balance) VALUES (3, '103', 450.00);");

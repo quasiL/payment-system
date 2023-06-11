@@ -1,16 +1,14 @@
 package cz.cvut.nss.userservice.service;
 
-import cz.cvut.nss.userservice.controller.AuthenticationRequest;
-import cz.cvut.nss.userservice.controller.AuthenticationResponse;
-import cz.cvut.nss.userservice.controller.RegisterRequest;
-import cz.cvut.nss.userservice.model.Role;
-import cz.cvut.nss.userservice.model.User;
+import cz.cvut.nss.userservice.model.*;
 import cz.cvut.nss.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -23,24 +21,29 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
 
-        //TODO Find out about Authentication Manager in documentation. It should validate request data
-        // but for some reason it always returns 403
-//        authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        request.getEmail(),
-//                        request.getPassword()
-//                )
-//        );
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
 
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .firstname(user.getFirstName())
+                .lastname(user.getLastName())
+                .email(user.getEmail())
                 .build();
     }
 
     public AuthenticationResponse register(RegisterRequest request) {
+        if (repository.findByEmail(request.getEmail()).isPresent()) {
+            throw new NoSuchElementException("No value present");
+        }
+
         var user = User.builder()
                 .firstName(request.getFirstname())
                 .lastName(request.getLastname())
@@ -54,4 +57,5 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
     }
+
 }
