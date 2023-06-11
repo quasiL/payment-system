@@ -1,4 +1,4 @@
-package cz.cvut.nss.userservice.controller;
+package cz.cvut.nss.userservice.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
