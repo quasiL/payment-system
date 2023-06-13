@@ -13,6 +13,8 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Intege
 
     Optional<UserAccount> findByAccount(String account);
 
+    Optional<UserAccount> findByUserId(Integer id);
+
     @Modifying
     @Query("UPDATE UserAccount u SET u.balance = :newBalance WHERE u.id = :id")
     void updateBalance(@Param("id") Integer id, @Param("newBalance") BigDecimal newBalance);
