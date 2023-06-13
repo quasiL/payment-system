@@ -31,6 +31,11 @@ public class PaymentProcessingService {
                 .orElseThrow(() -> new EntityNotFoundException(USER_ACCOUNT_NOT_FOUND_EXCEPTION_MESSAGE));
     }
 
+    public UserAccount getUserAccountById(Integer id) {
+        return userAccountRepository.findByUserId(id)
+                .orElseThrow(() -> new EntityNotFoundException(USER_ACCOUNT_NOT_FOUND_EXCEPTION_MESSAGE));
+    }
+
     public Payment getPaymentById(Integer id) {
         return paymentProcessingRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(PAYMENT_NOT_FOUND_EXCEPTION_MESSAGE));
@@ -63,7 +68,7 @@ public class PaymentProcessingService {
         });
     }
 
-    public UserAccount getUserAccount(String userAccount) {
+    public UserAccount getUserAccountByAccount(String userAccount) {
         return getUserByAccount(userAccount);
     }
 

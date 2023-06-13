@@ -35,8 +35,14 @@ public class PaymentProcessingController {
 
     @GetMapping("/user_account/{accountNumber}")
     @ResponseStatus(HttpStatus.OK)
-    public UserAccount getUserAccount(@PathVariable String accountNumber) {
-        return paymentProcessingService.getUserAccount(accountNumber);
+    public UserAccount getUserAccountByAccount(@PathVariable String accountNumber) {
+        return paymentProcessingService.getUserAccountByAccount(accountNumber);
+    }
+
+    @GetMapping("/user_account/id/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public UserAccount getUserAccountByAccount(@PathVariable Integer id) {
+        return paymentProcessingService.getUserAccountById(id);
     }
 
     @PostMapping("/user_account/add")

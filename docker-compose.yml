@@ -1,6 +1,31 @@
 version: '3.7'
 services:
 
+  ## Kafka Docker Compose Config
+  zookeeper:
+    container_name: zookeeper
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - payscam-network
+
+  kafka:
+    container_name: kafka
+    image: wurstmeister/kafka
+    ports:
+      - "9092:9092"
+    hostname: kafka
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'false'
+    depends_on:
+      - zookeeper
+    networks:
+      - payscam-network
+
   ## User-Service Docker Compose Config
   user-service:
     container_name: user-service
@@ -11,12 +36,11 @@ services:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: production
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-database:5432/payscam-database
-      SPRING_DATASOURCE_USERNAME: sa
-      SPRING_DATASOURCE_PASSWORD: password
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+    restart: on-failure
     depends_on:
       - postgres-database
+      - zookeeper
+      - kafka
     volumes:
       - ./user-service
     networks:
@@ -32,18 +56,17 @@ services:
       - "8081:8081"
     environment:
       SPRING_PROFILES_ACTIVE: production
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-database:5432/payscam-database
-      SPRING_DATASOURCE_USERNAME: sa
-      SPRING_DATASOURCE_PASSWORD: password
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
     depends_on:
       - postgres-database
+      - zookeeper
+      - kafka
+    restart: on-failure
     volumes:
       - ./payment-processing-service
     networks:
       - payscam-network
 
-  ## Payment-Processing-Service Docker Compose Config
+  ## Risk-Management-Service Docker Compose Config
   risk-management-service:
     container_name: risk-management-service
     build:
@@ -53,12 +76,10 @@ services:
       - "8082:8082"
     environment:
       SPRING_PROFILES_ACTIVE: production
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-database:5432/payscam-database
-      SPRING_DATASOURCE_USERNAME: sa
-      SPRING_DATASOURCE_PASSWORD: password
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
     depends_on:
       - postgres-database
+      - zookeeper
+      - kafka
     volumes:
       - ./risk-management-service
     networks:
@@ -89,36 +110,36 @@ services:
     networks:
       - payscam-network
 
-  elasticsearch:
-    container_name: elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
-    volumes:
-      - type: volume
-        source: elasticsearch
-        target: /usr/share/elasticsearch/data
-    environment:
-      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
-      ELASTIC_PASSWORD: changeme
-      discovery.type: single-node
-    networks:
-      - payscam-network
-    ports:
-      - "9200:9200"
-      - "9300:9300"
+#  elasticsearch:
+#    container_name: elasticsearch
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
+#    volumes:
+#      - type: volume
+#        source: elasticsearch
+#        target: /usr/share/elasticsearch/data
+#    environment:
+#      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+#      ELASTIC_PASSWORD: changeme
+#      discovery.type: single-node
+#    networks:
+#      - payscam-network
+#    ports:
+#      - "9200:9200"
+#      - "9300:9300"
+#
+#  kibana:
+#    container_name: kibana
+#    image: docker.elastic.co/kibana/kibana:7.12.0
+#    ports:
+#      - "5601:5601"
+#    depends_on:
+#      - elasticsearch
+#    networks:
+#      - payscam-network
 
-  kibana:
-    container_name: kibana
-    image: docker.elastic.co/kibana/kibana:7.12.0
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch
-    networks:
-      - payscam-network
+#volumes:
+#  elasticsearch:
 
 networks:
   payscam-network:
     driver: bridge
-
-volumes:
-  elasticsearch:

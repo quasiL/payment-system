@@ -8,9 +8,9 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL
 );
 
-INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName1','lastName1', 'email1', 'USER', 'password1');
-INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName2','lastName2', 'email2', 'USER', 'password2');
-INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName3','lastName3', 'email3', 'USER', 'password3');
+-- INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName1','lastName1', 'email1', 'USER', 'password1');
+-- INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName2','lastName2', 'email2', 'USER', 'password2');
+-- INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName3','lastName3', 'email3', 'USER', 'password3');
 
 
 
@@ -45,11 +45,11 @@ CREATE TABLE transactions (
     FOREIGN KEY (payment) REFERENCES payments(id)
 );
 
-INSERT INTO user_accounts(user_id, account, balance) VALUES (1, '101', 750.56);
-INSERT INTO user_accounts(user_id, account, balance) VALUES (2, '102', 800.50);
-INSERT INTO user_accounts(user_id, account, balance) VALUES (3, '103', 450.00);
-INSERT INTO payments (from_account, to_account, amount, payment_date, is_internal, is_invalidated) VALUES (1, 2, 150.55, NOW(), true, false);
-INSERT INTO payments (from_account, to_account, amount, payment_date, is_internal, is_invalidated) VALUES (2, 1, 250.55, NOW(), true, false);
+-- INSERT INTO user_accounts(user_id, account, balance) VALUES (1, '101', 750.56);
+-- INSERT INTO user_accounts(user_id, account, balance) VALUES (2, '102', 800.50);
+-- INSERT INTO user_accounts(user_id, account, balance) VALUES (3, '103', 450.00);
+-- INSERT INTO payments (from_account, to_account, amount, payment_date, is_internal, is_invalidated) VALUES (1, 2, 150.55, NOW(), true, false);
+-- INSERT INTO payments (from_account, to_account, amount, payment_date, is_internal, is_invalidated) VALUES (2, 1, 250.55, NOW(), true, false);
 -- INSERT INTO transactions (payment, transaction_date, transaction_type, transaction_status) VALUES (2, NOW(), 'INTERNAL', 'PENDING');
 -- INSERT INTO transactions (payment, transaction_date, transaction_type, transaction_status, payment_system) VALUES (2, NOW(), 'EXTERNAL', 'PENDING', 'PayPal');
 
