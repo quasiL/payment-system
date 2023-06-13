@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import createAxiosInstance from "../axios-client.js";
+import {useStateContext} from "../contexts/ContextProvider.jsx";
 
 let account;
 
@@ -33,7 +34,8 @@ export default function Payments() {
     const [filteredTransactions, setFilteredTransactions] = useState([]);
     const [filter, setFilter] = useState('');
     const axiosClient = createAxiosInstance(import.meta.env.VITE_API_BASE_PPS_URL);
-    account = "101";
+    const {user} = useStateContext();
+    account = user.account;
 
     useEffect(() => {
         getPayments();
@@ -57,15 +59,15 @@ export default function Payments() {
     };
 
     const getPayments = () => {
-        setLoading(true)
-        axiosClient.get('/payment/user_payments/101')
+        setLoading(true);
+        axiosClient.get(`/payment/user_payments/${user.account}`, user)
             .then(({data}) => {
                 setLoading(false);
                 setTransactions(data.sort((a, b) => a.id - b.id));
                 setFilteredTransactions(data.sort((a, b) => a.id - b.id));
             })
             .catch(() => {
-                setLoading(false)
+                setLoading(false);
             })
     }
 

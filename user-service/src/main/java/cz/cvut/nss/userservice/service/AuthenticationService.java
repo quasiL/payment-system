@@ -18,6 +18,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final KafkaMessageProducer kafkaMessageProducer;
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
 
@@ -32,6 +33,7 @@ public class AuthenticationService {
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
+                .id(user.getId())
                 .token(jwtToken)
                 .firstname(user.getFirstName())
                 .lastname(user.getLastName())
@@ -52,6 +54,9 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .build();
         repository.save(user);
+
+        kafkaMessageProducer.sendMessage("user-topic", new KafkaMessage(user.getId()));
+
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
