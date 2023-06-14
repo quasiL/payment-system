@@ -7,6 +7,7 @@ import Account from "./views/Account.jsx";
 import Payments from "./views/Payments.jsx";
 import {createBrowserRouter, Navigate} from "react-router-dom";
 import Send from "./views/Send.jsx";
+import Balance from "./views/Balance";
 
 
 const router = createBrowserRouter([
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
             {
                 path: '/send',
                 element: <Send />
+            },
+            {
+                path: '/balance',
+                element: <Balance />
             }
         ]
     },

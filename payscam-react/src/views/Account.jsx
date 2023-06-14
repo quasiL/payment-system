@@ -23,6 +23,7 @@ export default function Account() {
                 setAccount(data.account);
                 let updatedUser = user;
                 user.account = data.account;
+                user.balance = data.balance;
                 setUser(updatedUser);
             })
             .catch(() => {

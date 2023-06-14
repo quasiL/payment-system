@@ -23,6 +23,7 @@ const Transaction = (props) => {
             <td>{formatDate(transaction.paymentDate)}</td>
             <td>{transaction.fromAccount.account === account ? transaction.toAccount.account : account}</td>
             <td>{transaction.amount}</td>
+            <td>{transaction.internal ? "Yes" : "No"}</td>
         </tr>
     );
 };
@@ -92,6 +93,7 @@ export default function Payments() {
                         <th>Date</th>
                         <th>Account</th>
                         <th>Amount</th>
+                        <th>Internal</th>
                     </tr>
                     </thead>
                     {loading &&
