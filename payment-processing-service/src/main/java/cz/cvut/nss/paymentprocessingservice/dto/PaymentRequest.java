@@ -14,5 +14,6 @@ public class PaymentRequest {
     private String fromAccount;
     private String toAccount;
     private BigDecimal amount;
-    private boolean isInternal;
+    private boolean internal;
+    private String paymentSystem;
 }

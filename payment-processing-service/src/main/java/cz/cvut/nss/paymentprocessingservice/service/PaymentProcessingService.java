@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Stream;
@@ -41,8 +42,20 @@ public class PaymentProcessingService {
                 .orElseThrow(() -> new EntityNotFoundException(PAYMENT_NOT_FOUND_EXCEPTION_MESSAGE));
     }
 
+    @Transactional
     public String createNewPayment(PaymentRequest paymentRequest) {
+
         Payment payment = new Payment();
+
+        if (!paymentRequest.isInternal() && userAccountRepository.findByAccount(paymentRequest.getToAccount()).isEmpty()) {
+            userAccountRepository.save(UserAccount.builder()
+                    .userId(1)
+                    .account(paymentRequest.getToAccount())
+                    .balance(BigDecimal.valueOf(0))
+                    .build()
+            );
+        }
+
         UserAccount toAccount = getUserByAccount(paymentRequest.getToAccount());
         UserAccount fromAccount = getUserByAccount(paymentRequest.getFromAccount());
 
@@ -52,10 +65,33 @@ public class PaymentProcessingService {
         payment.setPaymentDate(LocalDateTime.now());
         payment.setInternal(paymentRequest.isInternal());
         payment.setInvalidated(false);
-
         paymentProcessingRepository.save(payment);
 
+        if (paymentRequest.isInternal()) {
+            processInternalPayment(paymentRequest);
+        } else {
+            processExternalPayment(paymentRequest);
+        }
+
         return PAYMENT_CREATED_MESSAGE;
+    }
+
+    @Transactional
+    private void processInternalPayment(PaymentRequest paymentRequest) {
+        UserAccount fromUser = getUserByAccount(paymentRequest.getFromAccount());
+        UserAccount toUser = getUserByAccount(paymentRequest.getToAccount());
+
+        fromUser.subtractAmount(paymentRequest.getAmount());
+        toUser.addAmount(paymentRequest.getAmount());
+        userAccountRepository.save(fromUser);
+        userAccountRepository.save(toUser);
+    }
+
+    @Transactional
+    private void processExternalPayment(PaymentRequest paymentRequest) {
+        UserAccount fromUser = getUserByAccount(paymentRequest.getFromAccount());
+        fromUser.subtractAmount(paymentRequest.getAmount());
+        userAccountRepository.save(fromUser);
     }
 
     public List<Payment> getAllUserRelatedPayments(String userAccount) {

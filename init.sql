@@ -7,12 +7,9 @@ CREATE TABLE users (
     role VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL
 );
+INSERT INTO users (first_name, last_name, email, role, password) VALUES ('admin','admin', 'admin@mail.com', 'ADMIN', 'admin');
 
--- INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName1','lastName1', 'email1', 'USER', 'password1');
--- INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName2','lastName2', 'email2', 'USER', 'password2');
--- INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName3','lastName3', 'email3', 'USER', 'password3');
-
-
+-------------------------------------------------------------------------------------
 
 -- Initialize tables and data for payment-processing-service
 CREATE TABLE user_accounts (
@@ -26,7 +23,7 @@ CREATE TABLE user_accounts (
 CREATE TABLE payments (
     id SERIAL PRIMARY KEY,
     from_account INTEGER NOT NULL,
-    to_account INTEGER NOT NULL,
+    to_account INTEGER,
     amount DECIMAL(38, 2) NOT NULL,
     payment_date TIMESTAMP NOT NULL,
     is_internal BOOLEAN NOT NULL,
@@ -53,7 +50,7 @@ CREATE TABLE transactions (
 -- INSERT INTO transactions (payment, transaction_date, transaction_type, transaction_status) VALUES (2, NOW(), 'INTERNAL', 'PENDING');
 -- INSERT INTO transactions (payment, transaction_date, transaction_type, transaction_status, payment_system) VALUES (2, NOW(), 'EXTERNAL', 'PENDING', 'PayPal');
 
-
+-------------------------------------------------------------------------------------
 
 -- Initialize tables and data for risk-management-service
 CREATE TABLE requests (
