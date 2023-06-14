@@ -26,7 +26,7 @@ body {
   background-color: #f6f6f6;
 }
 
-input {
+input, select {
   outline: 0;
   background: #ffffff;
   width: 100%;
@@ -318,4 +318,23 @@ table > tbody > tr > td {
 
 #about #user-info p {
   padding-bottom: 1vh;
+}
+
+#send {
+  width: 45vh;
+}
+
+#current-balance {
+  font-size: 1.5em;
+  padding-bottom: 1em;
+}
+
+#checkbox-section {
+  display: flex;
+}
+
+#checkbox_id {
+  margin: 0 0 1.5vh;
+  height: 2vh;
+  width: 5vh;
 }

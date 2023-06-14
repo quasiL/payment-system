@@ -4,7 +4,7 @@ import {BiUserCircle, BiMoneyWithdraw} from 'react-icons/bi';
 import {RiLogoutBoxRFill} from 'react-icons/ri';
 import {SiMoneygram} from 'react-icons/si';
 import {FaMoneyCheckAlt} from 'react-icons/fa';
-import {GiPayMoney} from 'react-icons/gi';
+import {GiPayMoney, GiReceiveMoney} from 'react-icons/gi';
 
 export default function DefaultLayout() {
 
@@ -24,6 +24,7 @@ export default function DefaultLayout() {
         <div id="defaultLayout">
             <aside>
                 <Link to="/account"><div className="icon"><FaMoneyCheckAlt/></div>Account</Link>
+                <Link to="/balance"><div className="icon"><GiReceiveMoney/></div>Deposit</Link>
                 <Link to="/send"><div className="icon"><GiPayMoney/></div>Send</Link>
                 <Link to="/payments"><div className="icon"><BiMoneyWithdraw/></div>History</Link>
             </aside>

@@ -40,7 +40,7 @@ public class DatabaseInitializer {
         jdbcTemplate.execute("CREATE TABLE payments (\n" +
                 "    id IDENTITY NOT NULL PRIMARY KEY,\n" +
                 "    from_account INTEGER NOT NULL,\n" +
-                "    to_account INTEGER NOT NULL,\n" +
+                "    to_account INTEGER,\n" +
                 "    amount DECIMAL(38, 2) NOT NULL,\n" +
                 "    payment_date TIMESTAMP NOT NULL,\n" +
                 "    is_internal BOOLEAN NOT NULL,\n" +
@@ -59,10 +59,10 @@ public class DatabaseInitializer {
                 ");");
         jdbcTemplate.execute("INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName1','lastName1', 'email1', 'USER', 'password1');");
         jdbcTemplate.execute("INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName2','lastName2', 'email2', 'USER', 'password2');");
-//        jdbcTemplate.execute("INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName2','lastName2', 'email2', 'USER', 'password2');");
-        jdbcTemplate.execute("INSERT INTO user_accounts(user_id, account, balance) VALUES (2, '101', 750.56);");
-//        jdbcTemplate.execute("INSERT INTO user_accounts(user_id, account, balance) VALUES (2, '102', 800.50);");
-//        jdbcTemplate.execute("INSERT INTO user_accounts(user_id, account, balance) VALUES (3, '103', 450.00);");
+        jdbcTemplate.execute("INSERT INTO users (first_name, last_name, email, role, password) VALUES ('firstName2','lastName2', 'email2', 'USER', 'password2');");
+        jdbcTemplate.execute("INSERT INTO user_accounts(user_id, account, balance) VALUES (2, '101101', 750.56);");
+        jdbcTemplate.execute("INSERT INTO user_accounts(user_id, account, balance) VALUES (2, '102', 80.50);");
+        jdbcTemplate.execute("INSERT INTO user_accounts(user_id, account, balance) VALUES (3, '103', 450.00);");
 //        jdbcTemplate.execute("INSERT INTO payments (from_account, to_account, amount, payment_date, is_internal, is_invalidated) VALUES (1, 2, 150.55, NOW(), true, false);");
 //        jdbcTemplate.execute("INSERT INTO payments (from_account, to_account, amount, payment_date, is_internal, is_invalidated) VALUES (2, 1, 250.55, NOW(), false, false);");
         //jdbcTemplate.execute("INSERT INTO transactions (payment, transaction_date, transaction_type, transaction_status) VALUES (1, NOW(), 'INTERNAL', 'PENDING');");

@@ -8,6 +8,7 @@ import cz.cvut.nss.paymentprocessingservice.service.PaymentProcessingService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,8 +30,8 @@ public class PaymentProcessingController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createPayment(@RequestBody PaymentRequest paymentRequest) {
-        paymentProcessingService.createNewPayment(paymentRequest);
+    public String createPayment(@RequestBody PaymentRequest paymentRequest) {
+        return paymentProcessingService.createNewPayment(paymentRequest);
     }
 
     @GetMapping("/user_account/{accountNumber}")
