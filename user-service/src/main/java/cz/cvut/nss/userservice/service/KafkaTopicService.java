@@ -1,7 +1,8 @@
 package cz.cvut.nss.userservice.service;
 
 import jakarta.annotation.PostConstruct;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.kafka.core.KafkaAdmin;
@@ -11,7 +12,8 @@ import java.util.Collections;
 import java.util.concurrent.ExecutionException;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Slf4j
 public class KafkaTopicService {
 
     private final AdminClient adminClient;
@@ -32,9 +34,9 @@ public class KafkaTopicService {
 
             if (!topicExists) {
                 this.createTopic(topicName, 1, (short) 1);
-                System.out.println("Topic created: " + topicName);
+                log.info("Topic created: {}", topicName);
             } else {
-                System.out.println("Topic already exists: " + topicName);
+                log.info("Topic already exists: {}", topicName);
             }
         }
     }

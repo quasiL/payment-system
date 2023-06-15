@@ -302,6 +302,12 @@ table > tbody > tr > td {
 
 /*Account*/
 
+.dialog-container {
+  position: fixed;
+  top: 10%;
+  right: 15%;
+}
+
 #about {
   padding-top: 3vh;
   display: flex;
@@ -318,6 +324,23 @@ table > tbody > tr > td {
 
 #about #user-info p {
   padding-bottom: 1vh;
+  font-size: 1.2em;
+}
+
+dialog h2 {
+  padding-bottom: 1.5vh;
+}
+
+dialog[open] {
+  -webkit-animation: show 1s ease normal;
+}
+@-webkit-keyframes show{
+  from {
+    transform: translateY(-110%);
+  }
+  to {
+    transform: translateY(0%);
+  }
 }
 
 #send {

@@ -2,7 +2,6 @@ package cz.cvut.nss.userservice.config;
 
 import cz.cvut.nss.userservice.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
