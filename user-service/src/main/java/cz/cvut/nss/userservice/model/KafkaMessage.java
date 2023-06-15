@@ -12,7 +12,7 @@ public class KafkaMessage {
 
     private Integer id;
 
-    public KafkaMessage(@JsonProperty Integer email) {
-        this.id = email;
+    public KafkaMessage(@JsonProperty Integer id) {
+        this.id = id;
     }
 }

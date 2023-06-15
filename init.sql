@@ -5,6 +5,7 @@ CREATE TABLE users (
     last_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     role VARCHAR(255) NOT NULL,
+    avatar VARCHAR(255),
     password VARCHAR(255) NOT NULL
 );
 INSERT INTO users (first_name, last_name, email, role, password) VALUES ('admin','admin', 'admin@mail.com', 'ADMIN', 'admin');

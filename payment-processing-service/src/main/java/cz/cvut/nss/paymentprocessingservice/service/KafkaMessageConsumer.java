@@ -4,6 +4,7 @@ import cz.cvut.nss.paymentprocessingservice.dto.KafkaMessage;
 import cz.cvut.nss.paymentprocessingservice.model.UserAccount;
 import cz.cvut.nss.paymentprocessingservice.repository.UserAccountRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,6 +15,7 @@ import java.util.Random;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class KafkaMessageConsumer {
 
     private final RestTemplate restTemplate;
@@ -21,19 +23,15 @@ public class KafkaMessageConsumer {
 
     @KafkaListener(topics = "user-topic")
     public void receiveNewAccountMessage(KafkaMessage message) {
-
-        System.out.println("MESSAGE RECEIVED!");
         String accountNumber = generateAccountNumber();
-
         userAccountRepository.save(UserAccount.builder()
                 .userId(message.getId())
                 .account(accountNumber)
                 .balance(BigDecimal.valueOf(0))
                 .build()
         );
-        System.out.println(accountNumber);
+        log.info("User account {} for user with ID {} has been created", accountNumber, message.getId());
 
-        // Call the endpoint in the other microservice
         //String otherMicroserviceUrl = "http://localhost:";
         //ResponseEntity<String> response = restTemplate.postForEntity(otherMicroserviceUrl, message, String.class);
     }
@@ -46,7 +44,5 @@ public class KafkaMessageConsumer {
                 return accountNumber;
             }
         }
-
     }
-
 }
