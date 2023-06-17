@@ -10,6 +10,7 @@ import cz.cvut.nss.paymentprocessingservice.repository.UserAccountRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,6 +22,7 @@ import static cz.cvut.nss.paymentprocessingservice.MessageConstants.*;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class PaymentProcessingService {
 
     private final PaymentRepository paymentProcessingRepository;
@@ -73,6 +75,7 @@ public class PaymentProcessingService {
             processExternalPayment(paymentRequest);
         }
 
+        log.info("Payment with ID {} has been created", payment.getId());
         return PAYMENT_CREATED_MESSAGE;
     }
 
