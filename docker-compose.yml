@@ -26,64 +26,48 @@ services:
     networks:
       - payscam-network
 
-  ## User-Service Docker Compose Config
-  user-service:
-    container_name: user-service
-    build:
-      context: ./user-service
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
+  ## ELK Docker Compose Config
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
     environment:
-      SPRING_PROFILES_ACTIVE: production
-    restart: on-failure
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      discovery.type: single-node
+    networks:
+      - payscam-network
+    ports:
+      - "9200:9200"
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.12.0
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    ports:
+      - "5601:5601"
     depends_on:
-      - postgres-database
-      - zookeeper
-      - kafka
-    volumes:
-      - ./user-service
+      - elasticsearch
     networks:
       - payscam-network
 
-  ## Payment-Processing-Service Docker Compose Config
-  payment-processing-service:
-    container_name: payment-processing-service
-    build:
-      context: ./payment-processing-service
-      dockerfile: Dockerfile
-    ports:
-      - "8081:8081"
-    environment:
-      SPRING_PROFILES_ACTIVE: production
-    depends_on:
-      - postgres-database
-      - zookeeper
-      - kafka
-    restart: on-failure
+  logstash:
+    container_name: logstash
+    image: docker.elastic.co/logstash/logstash-oss:7.12.0
+    command: bin/logstash -f /etc/logstash/config/logstash.conf
     volumes:
-      - ./payment-processing-service
+      - ./logstash/logstash.conf:/etc/logstash/config/logstash.conf:ro
+      - ./logs/payment_processing_service.log:/usr/share/logstash/logs/payment_processing_service.log:ro
+      - ./logs/user_service.log:/usr/share/logstash/logs/user_service.log:ro
+    ports:
+      - "5044:5044"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ELASTICSEARCH_HOST: elasticsearch
+      ELASTICSEARCH_PORT: 9200
     networks:
       - payscam-network
-
-  ## Risk-Management-Service Docker Compose Config
-  risk-management-service:
-    container_name: risk-management-service
-    build:
-      context: ./risk-management-service
-      dockerfile: Dockerfile
-    ports:
-      - "8082:8082"
-    environment:
-      SPRING_PROFILES_ACTIVE: production
     depends_on:
-      - postgres-database
-      - zookeeper
-      - kafka
-    volumes:
-      - ./risk-management-service
-    networks:
-      - payscam-network
+      - elasticsearch
 
   ## React-app Docker Compose Config
   payscam-react:
@@ -110,35 +94,66 @@ services:
     networks:
       - payscam-network
 
-#  elasticsearch:
-#    container_name: elasticsearch
-#    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
-#    volumes:
-#      - type: volume
-#        source: elasticsearch
-#        target: /usr/share/elasticsearch/data
-#    environment:
-#      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
-#      ELASTIC_PASSWORD: changeme
-#      discovery.type: single-node
-#    networks:
-#      - payscam-network
-#    ports:
-#      - "9200:9200"
-#      - "9300:9300"
-#
-#  kibana:
-#    container_name: kibana
-#    image: docker.elastic.co/kibana/kibana:7.12.0
-#    ports:
-#      - "5601:5601"
-#    depends_on:
-#      - elasticsearch
-#    networks:
-#      - payscam-network
+  ## User-Service Docker Compose Config
+  user-service:
+    container_name: user-service
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+    restart: on-failure
+    depends_on:
+      - postgres-database
+      - zookeeper
+      - kafka
+    volumes:
+      - ./user-service
+      - ./logs/user_service.log:/logs/user_service.log
+    networks:
+      - payscam-network
 
-#volumes:
-#  elasticsearch:
+  ## Payment-Processing-Service Docker Compose Config
+  payment-processing-service:
+    container_name: payment-processing-service
+    build:
+      context: ./payment-processing-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+    depends_on:
+      - postgres-database
+      - zookeeper
+      - kafka
+    restart: on-failure
+    volumes:
+      - ./payment-processing-service
+      - ./logs/payment_processing_service.log:/logs/payment_processing_service.log
+    networks:
+      - payscam-network
+
+  ## Risk-Management-Service Docker Compose Config
+  risk-management-service:
+    container_name: risk-management-service
+    build:
+      context: ./risk-management-service
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+    depends_on:
+      - postgres-database
+      - zookeeper
+      - kafka
+    volumes:
+      - ./risk-management-service
+    networks:
+      - payscam-network
 
 networks:
   payscam-network:
