@@ -2,6 +2,7 @@ package cz.cvut.nss.paymentprocessingservice.service;
 
 import com.hazelcast.map.IMap;
 import cz.cvut.nss.paymentprocessingservice.dto.ChangeBalanceRequest;
+import cz.cvut.nss.paymentprocessingservice.dto.KafkaMessage;
 import cz.cvut.nss.paymentprocessingservice.dto.PaymentRequest;
 import cz.cvut.nss.paymentprocessingservice.model.Payment;
 import cz.cvut.nss.paymentprocessingservice.model.UserAccount;
@@ -28,6 +29,8 @@ public class PaymentProcessingService {
     private final PaymentRepository paymentProcessingRepository;
     private final UserAccountRepository userAccountRepository;
     private IMap<String, List<Payment>> paymentCache;
+    private final KafkaMessageProducer kafkaMessageProducer;
+    private final TransactionService transactionService;
 
     private UserAccount getUserByAccount(String userAccount) {
         return userAccountRepository.findByAccount(userAccount)
@@ -68,6 +71,10 @@ public class PaymentProcessingService {
         payment.setInternal(paymentRequest.isInternal());
         payment.setInvalidated(false);
         paymentProcessingRepository.save(payment);
+
+        transactionService.createTransactionFromPayment(payment);
+        kafkaMessageProducer.sendMessage("risk-topic",
+                new KafkaMessage(transactionService.getTransactionByPayment(payment).getId()));
 
         if (paymentRequest.isInternal()) {
             processInternalPayment(paymentRequest);

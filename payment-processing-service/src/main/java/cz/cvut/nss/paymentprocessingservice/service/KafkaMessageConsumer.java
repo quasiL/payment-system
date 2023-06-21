@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.security.SecureRandom;
@@ -18,7 +17,6 @@ import java.util.Random;
 @Slf4j
 public class KafkaMessageConsumer {
 
-    private final RestTemplate restTemplate;
     private final UserAccountRepository userAccountRepository;
 
     @KafkaListener(topics = "user-topic")
@@ -31,9 +29,6 @@ public class KafkaMessageConsumer {
                 .build()
         );
         log.info("User account {} for user with ID {} has been created", accountNumber, message.getId());
-
-        //String otherMicroserviceUrl = "http://localhost:";
-        //ResponseEntity<String> response = restTemplate.postForEntity(otherMicroserviceUrl, message, String.class);
     }
 
     private String generateAccountNumber() {
