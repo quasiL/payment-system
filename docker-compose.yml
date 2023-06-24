@@ -72,9 +72,7 @@ services:
   ## React-app Docker Compose Config
   payscam-react:
     container_name: payscam-react
-    build:
-      context: ./payscam-react
-      dockerfile: Dockerfile
+    image: potacocat/payscam-react-app:latest
     ports:
       - "3000:3000"
 
@@ -97,9 +95,7 @@ services:
   ## User-Service Docker Compose Config
   user-service:
     container_name: user-service
-    build:
-      context: ./user-service
-      dockerfile: Dockerfile
+    image: potacocat/payscam-user-service:latest
     ports:
       - "8080:8080"
     environment:
@@ -118,9 +114,7 @@ services:
   ## Payment-Processing-Service Docker Compose Config
   payment-processing-service:
     container_name: payment-processing-service
-    build:
-      context: ./payment-processing-service
-      dockerfile: Dockerfile
+    image: potacocat/payscam-payment-processing-service:latest
     ports:
       - "8081:8081"
     environment:
@@ -139,9 +133,7 @@ services:
   ## Risk-Management-Service Docker Compose Config
   risk-management-service:
     container_name: risk-management-service
-    build:
-      context: ./risk-management-service
-      dockerfile: Dockerfile
+    image: potacocat/payscam-risk-management-service:latest
     ports:
       - "8082:8082"
     environment:
