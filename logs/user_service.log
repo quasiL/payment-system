@@ -1,0 +1,19 @@
+25-06-2023 15:42:15.228 [main] INFO  c.c.n.u.UserServiceApplication.logStarting - Starting UserServiceApplication v0.0.1-SNAPSHOT using Java 17.0.2 with PID 1 (/user-service-0.0.1-SNAPSHOT.jar started by root in /)
+25-06-2023 15:42:15.280 [main] INFO  c.c.n.u.UserServiceApplication.logStartupProfileInfo - The following 1 profile is active: "production"
+25-06-2023 15:42:37.091 [main] INFO  c.c.n.u.service.KafkaTopicService.createUserTopic - Topic created: user-topic
+25-06-2023 15:42:39.874 [main] INFO  c.c.n.u.UserServiceApplication.logStarted - Started UserServiceApplication in 27.438 seconds (process running for 30.815)
+25-06-2023 15:43:20.419 [http-nio-8080-exec-1] INFO  c.c.n.u.s.AuthenticationService.register - New User with ID 2 was created
+25-06-2023 15:43:20.596 [http-nio-8080-exec-1] INFO  c.c.n.u.service.KafkaMessageProducer.sendMessage - A request to create a user with an ID 2 has been sent to user-topic
+25-06-2023 15:43:42.001 [http-nio-8080-exec-5] INFO  c.c.n.u.s.AuthenticationService.register - New User with ID 3 was created
+25-06-2023 15:43:42.001 [http-nio-8080-exec-5] INFO  c.c.n.u.service.KafkaMessageProducer.sendMessage - A request to create a user with an ID 3 has been sent to user-topic
+25-06-2023 15:45:23.554 [http-nio-8080-exec-10] INFO  c.c.n.u.service.UserService.changeAvatar - User avatar has been changed
+25-06-2023 15:49:16.467 [http-nio-8080-exec-5] INFO  c.c.n.u.service.UserService.changeAvatar - User avatar has been changed
+26-06-2023 13:09:01.121 [main] INFO  c.c.n.u.UserServiceApplication.logStarting - Starting UserServiceApplication v0.0.1-SNAPSHOT using Java 17.0.2 with PID 1 (/user-service-0.0.1-SNAPSHOT.jar started by root in /)
+26-06-2023 13:09:01.155 [main] INFO  c.c.n.u.UserServiceApplication.logStartupProfileInfo - The following 1 profile is active: "production"
+26-06-2023 13:09:27.775 [main] INFO  c.c.n.u.service.KafkaTopicService.createUserTopic - Topic created: user-topic
+26-06-2023 13:09:30.744 [main] INFO  c.c.n.u.UserServiceApplication.logStarted - Started UserServiceApplication in 32.047 seconds (process running for 35.166)
+26-06-2023 13:11:05.741 [http-nio-8080-exec-2] INFO  c.c.n.u.s.AuthenticationService.register - New User with ID 2 was created
+26-06-2023 13:11:05.992 [http-nio-8080-exec-2] INFO  c.c.n.u.service.KafkaMessageProducer.sendMessage - A request to create a user with an ID 2 has been sent to user-topic
+26-06-2023 13:11:41.796 [http-nio-8080-exec-5] INFO  c.c.n.u.s.AuthenticationService.register - New User with ID 3 was created
+26-06-2023 13:11:41.797 [http-nio-8080-exec-5] INFO  c.c.n.u.service.KafkaMessageProducer.sendMessage - A request to create a user with an ID 3 has been sent to user-topic
+26-06-2023 13:14:02.216 [http-nio-8080-exec-2] INFO  c.c.n.u.service.UserService.changeAvatar - User avatar has been changed

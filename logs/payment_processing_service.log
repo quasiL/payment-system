@@ -1,0 +1,22 @@
+25-06-2023 15:42:15.285 [main] INFO  c.c.n.p.PaymentProcessingServiceApplication.logStarting - Starting PaymentProcessingServiceApplication v0.0.1-SNAPSHOT using Java 17.0.2 with PID 1 (/payment-processing-service-0.0.1-SNAPSHOT.jar started by root in /)
+25-06-2023 15:42:15.304 [main] INFO  c.c.n.p.PaymentProcessingServiceApplication.logStartupProfileInfo - The following 1 profile is active: "production"
+25-06-2023 15:42:43.919 [main] INFO  c.c.n.p.service.KafkaTopicService.createUserTopic - Topic created: risk-topic
+25-06-2023 15:42:45.601 [main] INFO  c.c.n.p.PaymentProcessingServiceApplication.logStarted - Started PaymentProcessingServiceApplication in 33.054 seconds (process running for 36.543)
+25-06-2023 15:43:21.094 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.c.n.p.service.KafkaMessageConsumer.receiveNewAccountMessage - User account 585802 for user with ID 2 has been created
+25-06-2023 15:43:42.024 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.c.n.p.service.KafkaMessageConsumer.receiveNewAccountMessage - User account 250627 for user with ID 3 has been created
+25-06-2023 15:44:03.992 [http-nio-8081-exec-8] INFO  c.c.n.p.service.KafkaMessageProducer.sendMessage - A request to validate a transaction with an ID 1 has been sent to risk-topic
+25-06-2023 15:44:04.006 [http-nio-8081-exec-8] INFO  c.c.n.p.s.PaymentProcessingService.createNewPayment - Payment with ID 1 has been created
+25-06-2023 15:44:45.263 [http-nio-8081-exec-2] INFO  c.c.n.p.service.KafkaMessageProducer.sendMessage - A request to validate a transaction with an ID 2 has been sent to risk-topic
+25-06-2023 15:44:45.266 [http-nio-8081-exec-2] INFO  c.c.n.p.s.PaymentProcessingService.createNewPayment - Payment with ID 2 has been created
+26-06-2023 13:09:01.328 [main] INFO  c.c.n.p.PaymentProcessingServiceApplication.logStarting - Starting PaymentProcessingServiceApplication v0.0.1-SNAPSHOT using Java 17.0.2 with PID 1 (/payment-processing-service-0.0.1-SNAPSHOT.jar started by root in /)
+26-06-2023 13:09:01.342 [main] INFO  c.c.n.p.PaymentProcessingServiceApplication.logStartupProfileInfo - The following 1 profile is active: "production"
+26-06-2023 13:09:34.713 [main] INFO  c.c.n.p.service.KafkaTopicService.createUserTopic - Topic created: risk-topic
+26-06-2023 13:09:37.050 [main] INFO  c.c.n.p.PaymentProcessingServiceApplication.logStarted - Started PaymentProcessingServiceApplication in 38.25 seconds (process running for 41.383)
+26-06-2023 13:11:07.398 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.c.n.p.service.KafkaMessageConsumer.receiveNewAccountMessage - User account 180380 for user with ID 2 has been created
+26-06-2023 13:11:41.865 [org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  c.c.n.p.service.KafkaMessageConsumer.receiveNewAccountMessage - User account 133506 for user with ID 3 has been created
+26-06-2023 13:12:45.632 [http-nio-8081-exec-10] INFO  c.c.n.p.service.KafkaMessageProducer.sendMessage - A request to validate a transaction with an ID 1 has been sent to risk-topic
+26-06-2023 13:12:45.648 [http-nio-8081-exec-10] INFO  c.c.n.p.s.PaymentProcessingService.createNewPayment - Payment with ID 1 has been created
+26-06-2023 13:13:06.130 [http-nio-8081-exec-2] INFO  c.c.n.p.service.KafkaMessageProducer.sendMessage - A request to validate a transaction with an ID 2 has been sent to risk-topic
+26-06-2023 13:13:06.138 [http-nio-8081-exec-2] INFO  c.c.n.p.s.PaymentProcessingService.createNewPayment - Payment with ID 2 has been created
+26-06-2023 13:15:20.106 [http-nio-8081-exec-3] INFO  c.c.n.p.service.KafkaMessageProducer.sendMessage - A request to validate a transaction with an ID 3 has been sent to risk-topic
+26-06-2023 13:15:20.110 [http-nio-8081-exec-3] INFO  c.c.n.p.s.PaymentProcessingService.createNewPayment - Payment with ID 3 has been created
